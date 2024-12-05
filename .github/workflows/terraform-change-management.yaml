@@ -5,7 +5,9 @@ on:
     branches:
       - main
 
+
 env:
+  TF_LOG: 'verbose'
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: "us-east-1"
@@ -13,6 +15,8 @@ env:
   VPC_ID: ${{ vars.VPC_ID }}
   SUBNET_IDS: ${{ vars.SUBNET_IDS }}
   CONTROL_PLANE_SUBNET_IDS: ${{ vars.CONTROL_PLANE_SUBNET_IDS }}
+
+
 
 jobs:
   terraform:
