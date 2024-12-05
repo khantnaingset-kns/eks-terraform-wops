@@ -62,7 +62,7 @@ jobs:
           terraform plan \
           -out=tfplan \
           -var "cluster_name=$CLUSTER_NAME" \
-          -var "region=$AWS_REGION"
+          -var "region=$AWS_REGION" \
           -var "vpc_id=$VPC_ID" \
           -var "subnet_ids=$SUBNET_IDS" \
           -var "control_plane_subnet_ids=$CONTROL_PLANE_SUBNET_IDS"
