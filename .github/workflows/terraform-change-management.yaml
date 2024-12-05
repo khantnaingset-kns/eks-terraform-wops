@@ -1,0 +1,52 @@
+name: "Terraform Change Management Pipeline"
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: "us-east-1"
+  CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
+  VPC_ID: ${{ vars.VPC_ID }}
+  SUBNET_IDS: ${{ vars.SUBNET_IDS }}
+  CONTROL_PLANE_SUBNET_IDS: ${{ vars.CONTROL_PLANE_SUBNET_IDS }}
+
+jobs:
+  terraform:
+    name: "Terraform Plan & Apply"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.1"
+
+      - name: Init Terraform
+        id: init
+        run: |
+          terraform init \
+          -backend-config="bucket=${{ secrets.S3_BUCKET_NAME }}" \
+          -backend-config="key=terraform.tfstate" \
+          -backend-config="region=$AWS_REGION"
+
+      - name: Plan Terraform changes
+        id: plan
+        run: |
+          terraform plan \
+          -out=tfplan \
+          -var "cluster_name=$CLUSTER_NAME" \
+          -var "region=$AWS_REGION"
+          -var "vpc_id=$VPC_ID" \
+          -var "subnet_ids=$SUBNET_IDS" \
+          -var "control_plane_subnet_ids=$CONTROL_PLANE_SUBNET_IDS"
+      
+      - name: Apply Terraform changes
+        if: steps.plan.outputs.summary != 'No changes. Everything is up-to-date.'
+        run: terraform apply --auto-approve tfplan
