@@ -23,6 +23,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Debug
+        run: |
+          echo $AWS_ACCESS_KEY_ID
+          echo $AWS_SECRET_ACCESS_KEY
+          echo $CLUSTER_NAME
+          echo $VPC_ID
+          echo $SUBNET_IDS
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -46,7 +54,7 @@ jobs:
           -var "vpc_id=$VPC_ID" \
           -var "subnet_ids=$SUBNET_IDS" \
           -var "control_plane_subnet_ids=$CONTROL_PLANE_SUBNET_IDS"
-      
+
       - name: Apply Terraform changes
         if: steps.plan.outputs.summary != 'No changes. Everything is up-to-date.'
         run: terraform apply --auto-approve tfplan
