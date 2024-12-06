@@ -74,5 +74,4 @@ jobs:
 
       - name: Apply Terraform changes
         if: success() || failure()
-        if: steps.plan.outputs.summary != 'No changes. Everything is up-to-date.'
         run: terraform apply --auto-approve tfplan
