@@ -61,6 +61,16 @@ jobs:
           -var "subnet_ids=$SUBNET_IDS" \
           -var "control_plane_subnet_ids=$CONTROL_PLANE_SUBNET_IDS"
 
+      - name: Checkov GitHub Action
+        uses: bridgecrewio/checkov-action@v12
+        with:
+            # This will add both a CLI output to the console and create a results.sarif file
+          output_format: cli,sarif
+          output_file_path: console,results.sarif
+          
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+
       - name: Apply Terraform changes
         if: steps.plan.outputs.summary != 'No changes. Everything is up-to-date.'
         run: terraform apply --auto-approve tfplan
