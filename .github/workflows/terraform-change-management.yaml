@@ -19,6 +19,7 @@ env:
   VPC_ID: ${{ vars.VPC_ID }}
   SUBNET_IDS: ${{ vars.SUBNET_IDS }}
   CONTROL_PLANE_SUBNET_IDS: ${{ vars.CONTROL_PLANE_SUBNET_IDS }}
+  EKS_ACCESS_ENTRY_IAM_USER_ARN: ${{secrets.EKS_ACCESS_ENTRY_IAM_USER_ARN}}
 
 jobs:
   terraform:
@@ -61,7 +62,8 @@ jobs:
           -var "region=$AWS_REGION" \
           -var "vpc_id=$VPC_ID" \
           -var "subnet_ids=$SUBNET_IDS" \
-          -var "control_plane_subnet_ids=$CONTROL_PLANE_SUBNET_IDS"
+          -var "control_plane_subnet_ids=$CONTROL_PLANE_SUBNET_IDS" \
+          -var "eks_access_entry_iam_user_arn=$EKS_ACCESS_ENTRY_IAM_USER_ARN"
 
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@v12

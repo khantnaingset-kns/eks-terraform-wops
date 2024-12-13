@@ -23,3 +23,7 @@ variable "control_plane_subnet_ids" {
   description = "ID of the Control Plane Subnets"
 }
 
+variable "eks_access_entry_iam_user_arn" {
+  type = string
+  description = "IAM user ARN for EKS Cluster Access"
+}
