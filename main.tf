@@ -66,7 +66,7 @@ resource "kubernetes_namespace" "this" {
 
 resource "helm_release" "this" {
   name       = "karpenter"
-  repository = "oci://public.ecr.aws/karpenter/karpenter"
-  chart = "karpenter"
-  namespace = kubernetes_namespace.this.id
+  repository = "https://charts.karpenter.sh/"
+  chart      = "karpenter"
+  namespace  = kubernetes_namespace.this.id
 }
