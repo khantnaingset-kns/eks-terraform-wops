@@ -65,7 +65,7 @@ resource "kubernetes_namespace" "this" {
 }
 
 resource "helm_release" "this" {
-  name       = "karpenter"
+  name       = "karpenter-scaler"
   repository = "https://charts.karpenter.sh/"
   chart      = "karpenter"
   namespace  = kubernetes_namespace.this.id
@@ -86,5 +86,5 @@ resource "helm_release" "this" {
     value = module.eks.cluster_endpoint
   }
 
-  
+
 }
