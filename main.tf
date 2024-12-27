@@ -50,7 +50,7 @@ module "eks" {
         policy = {
           policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
           access_scope = {
-            type       = "cluster"
+            type = "cluster"
           }
         }
       }
@@ -64,3 +64,8 @@ resource "kubernetes_namespace" "this" {
   }
 }
 
+resource "helm_release" "this" {
+  name       = "karpenter"
+  repository = "oci://public.ecr.aws/karpenter/karpenter"
+  chart = "karpenter"
+}
