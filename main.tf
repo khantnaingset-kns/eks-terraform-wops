@@ -80,4 +80,11 @@ resource "helm_release" "this" {
     name = "interruptionQueue"
     value = var.cluster_name
   }
+
+  set {
+    name = "clusterEndpoint"
+    value = module.eks.cluster_endpoint
+  }
+
+  
 }
