@@ -69,7 +69,7 @@ resource "helm_release" "this" {
   repository = "https://charts.karpenter.sh/"
   chart      = "karpenter"
   namespace  = kubernetes_namespace.this.id
-  version = "1.1"
+  version = "0.16.3"
   
   set {
     name = "clusterName"
