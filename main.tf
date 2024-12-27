@@ -56,7 +56,11 @@ module "eks" {
       }
     }
   }
+}
 
-
+resource "kubernetes_namespace" "this" {
+  metadata {
+    name = "karpenter"
+  }
 }
 
