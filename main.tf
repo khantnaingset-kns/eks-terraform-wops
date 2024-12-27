@@ -64,11 +64,17 @@ resource "kubernetes_namespace" "this" {
   }
 }
 
+resource "kubernetes_namespace" "scaler" {
+  metadata {
+    name = "karpenter-scaler"
+  }
+}
+
 resource "helm_release" "this" {
   name       = "karpenter-scaler"
   repository = "https://charts.karpenter.sh/"
   chart      = "karpenter"
-  namespace  = kubernetes_namespace.this.id
+  namespace  = kubernetes_namespace.scaler.id
   version = "0.16.3"
   
   set {
