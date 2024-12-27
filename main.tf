@@ -68,4 +68,5 @@ resource "helm_release" "this" {
   name       = "karpenter"
   repository = "oci://public.ecr.aws/karpenter/karpenter"
   chart = "karpenter"
+  namespace = kubernetes_namespace.this.id
 }
